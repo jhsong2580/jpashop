@@ -36,4 +36,7 @@ public class Member extends BaseTimeEntity {
 
     @Embedded
     private Address address = new Address();
+
+    @Embedded
+    private OrderListManager orders = new OrderListManager();
 }
