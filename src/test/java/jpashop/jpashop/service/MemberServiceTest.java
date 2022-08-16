@@ -1,10 +1,17 @@
 package jpashop.jpashop.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import jpashop.jpashop.domain.Member;
+import jpashop.jpashop.dto.member.MemberDTO;
 import jpashop.jpashop.dto.member.form.MemberJoinDTO;
 import jpashop.jpashop.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,5 +53,30 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.joinMember(memberJoinDTO))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage("해당 아이디의 회원이 이미 존재합니다");
+    }
+
+    @Test
+    public void findAllMembers() {
+        //given
+        Member member1 = new Member("1", "1PW", null);
+        Member member2 = new Member("2", "2PW", null);
+        when(memberRepository.findAll()).thenReturn(Arrays.asList(member1, member2));
+        //when
+        List<MemberDTO> allMembers = memberService.findAllMembers();
+        //then
+        assertAll(
+            () -> assertThat(allMembers).extracting("identification").containsExactly("1", "2"),
+            () -> assertThat(allMembers).extracting("city").containsExactly("", "")
+        );
+    }
+
+    @Test
+    public void findAllMembersEmptyList() {
+        //given
+        when(memberRepository.findAll()).thenReturn(new ArrayList<>());
+        //when
+        List<MemberDTO> allMembers = memberService.findAllMembers();
+        //then
+        assertThat(allMembers.size()).isEqualTo(0);
     }
 }
