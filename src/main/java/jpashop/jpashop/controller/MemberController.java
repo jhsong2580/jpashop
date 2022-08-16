@@ -1,7 +1,7 @@
 package jpashop.jpashop.controller;
 
-import jpashop.jpashop.dto.member.request.MemberJoinDTO;
-import jpashop.jpashop.dto.member.request.MemberLoginDTO;
+import jpashop.jpashop.dto.member.form.MemberJoinDTO;
+import jpashop.jpashop.dto.member.form.MemberLoginDTO;
 import jpashop.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

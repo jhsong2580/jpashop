@@ -1,4 +1,4 @@
-package jpashop.jpashop.dto.member.request;
+package jpashop.jpashop.dto.member.form;
 
 import javax.validation.constraints.NotEmpty;
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package jpashop.jpashop.dto.member.request;
+package jpashop.jpashop.dto.member.form;
 
 import lombok.AccessLevel;
 import lombok.Getter;

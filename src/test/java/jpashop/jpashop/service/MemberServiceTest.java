@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import jpashop.jpashop.dto.member.request.MemberJoinDTO;
+import jpashop.jpashop.dto.member.form.MemberJoinDTO;
 import jpashop.jpashop.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
