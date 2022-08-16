@@ -2,6 +2,8 @@ package jpashop.jpashop.controller;
 
 import jpashop.jpashop.dto.member.request.MemberJoinDTO;
 import jpashop.jpashop.dto.member.request.MemberLoginDTO;
+import jpashop.jpashop.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value = "/member")
+@RequiredArgsConstructor
 public class MemberController {
+
+    private final MemberService memberService;
 
     @GetMapping("/login")
     public String loginPage(@ModelAttribute MemberLoginDTO memberLoginDTO) {
@@ -40,6 +45,9 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             return "/basic/join";
         }
+
+        memberService.joinMember(memberJoinDTO);
+
         return "redirect:/member/login";
     }
 }
