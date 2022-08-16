@@ -10,9 +10,11 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import jpashop.jpashop.domain.Member;
 import jpashop.jpashop.dto.member.MemberDTO;
 import jpashop.jpashop.dto.member.form.MemberJoinDTO;
+import jpashop.jpashop.dto.member.form.MemberLoginDTO;
 import jpashop.jpashop.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,5 +80,42 @@ class MemberServiceTest {
         List<MemberDTO> allMembers = memberService.findAllMembers();
         //then
         assertThat(allMembers.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void loginWithUnknownUser() {
+        //given
+        when(memberRepository.findByName("id")).thenReturn(Optional.empty());
+        MemberLoginDTO memberLoginDTO = new MemberLoginDTO("id", "pw");
+
+        //when & then
+        assertThatThrownBy(() -> memberService.login(memberLoginDTO))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessage("존재하지 않는 회원입니다");
+    }
+
+    @Test
+    public void loginWithWrongPassword() {
+        //given
+        when(memberRepository.findByName("id")).thenReturn(
+            Optional.of(new Member("id", "pw", null)));
+
+        MemberLoginDTO memberLoginDTO = new MemberLoginDTO("id", "wrongPw");
+        //when & then
+        assertThatThrownBy(() -> memberService.login(memberLoginDTO))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessage("password가 일치하지 않습니다");
+    }
+
+    @Test
+    public void loginNormal() {
+        //given
+        when(memberRepository.findByName("id")).thenReturn(
+            Optional.of(new Member("id", "pw", null)));
+
+        MemberLoginDTO memberLoginDTO = new MemberLoginDTO("id", "pw");
+        //when & then
+        assertDoesNotThrow(() -> memberService.login(memberLoginDTO));
+
     }
 }
