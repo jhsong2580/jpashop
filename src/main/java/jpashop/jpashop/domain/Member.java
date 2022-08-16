@@ -50,4 +50,8 @@ public class Member extends BaseTimeEntity {
     public static Member from(MemberJoinDTO memberJoinDTO) {
         return new Member(memberJoinDTO.getIdentification(), memberJoinDTO.getPassword(), null);
     }
+
+    public boolean validPassword(String password){
+        return this.password.equals(password);
+    }
 }
