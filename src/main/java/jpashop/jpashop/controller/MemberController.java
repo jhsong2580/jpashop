@@ -1,5 +1,6 @@
 package jpashop.jpashop.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import jpashop.jpashop.dto.member.form.MemberJoinDTO;
 import jpashop.jpashop.dto.member.form.MemberLoginDTO;
 import jpashop.jpashop.service.MemberService;
@@ -26,12 +27,15 @@ public class MemberController {
 
     @PostMapping("/login")
     public String loginProcess(@Validated @ModelAttribute MemberLoginDTO loginDTO,
-        BindingResult bindingResult) {
+        BindingResult bindingResult,
+        HttpServletRequest httpServletRequest) {
 
         if (bindingResult.hasErrors()) {
             return "/basic/login";
         }
-        return "redirect:/member/login";
+
+        memberService.login(loginDTO, httpServletRequest);
+        return "redirect:/items";
     }
 
     @GetMapping("/join")

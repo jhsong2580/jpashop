@@ -2,6 +2,7 @@ package jpashop.jpashop.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 import jpashop.jpashop.domain.Member;
 import jpashop.jpashop.dto.member.MemberDTO;
 import jpashop.jpashop.dto.member.form.MemberJoinDTO;
@@ -30,12 +31,13 @@ public class MemberService {
             .collect(Collectors.toList());
     }
 
-    public void login(MemberLoginDTO memberLoginDTO){
+    public void login(MemberLoginDTO memberLoginDTO, HttpServletRequest httpServletRequest){
         Member member = memberRepository.findByName(memberLoginDTO.getIdentification())
             .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다"));
 
         if(!member.validPassword(memberLoginDTO.getPassword())){
             throw new IllegalStateException("password가 일치하지 않습니다");
         }
+        httpServletRequest.setAttribute("MEMBERID",member.getId());
     }
 }
