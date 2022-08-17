@@ -3,6 +3,7 @@ package jpashop.jpashop.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import jpashop.jpashop.domain.Member;
 import jpashop.jpashop.dto.member.MemberDTO;
 import jpashop.jpashop.dto.member.form.MemberJoinDTO;
@@ -38,6 +39,8 @@ public class MemberService {
         if(!member.validPassword(memberLoginDTO.getPassword())){
             throw new IllegalStateException("password가 일치하지 않습니다");
         }
-        httpServletRequest.setAttribute("MEMBERID",member.getId());
+
+        HttpSession session = httpServletRequest.getSession(true);
+        session.setAttribute("MEMBERID",member.getId());
     }
 }
