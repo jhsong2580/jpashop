@@ -1,6 +1,7 @@
 package jpashop.jpashop.controller;
 
-import java.util.LinkedList;
+import jpashop.jpashop.service.ItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value = "/items")
+@RequiredArgsConstructor
 public class ItemController {
+
+    private final ItemService itemService;
 
     @GetMapping
     public String getItems(Model model) {
-        model.addAttribute("items", new LinkedList<>());
+        model.addAttribute("items", itemService.getList());
         return "basic/items";
     }
 
