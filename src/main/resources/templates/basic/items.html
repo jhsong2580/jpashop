@@ -33,10 +33,10 @@
             </thead>
             <tbody>
             <tr th:each="item : ${items}">
-                <td><a href="item.html" th:href="@{/items/{itemId}(itemId=${item.id})}" th:text="${item.id}">회원ID</a></td>
-                <td><a href="item.html" th:href="@{/items/{itemId}(itemId=${item.id})}" th:text="${item.itemName}">상품명</a></td>
+                <td><a href="item.html" th:href="@{/items/{itemId}(itemId=${item.itemId})}" th:text="${item.itemId}">회원ID</a></td>
+                <td><a href="item.html" th:href="@{/items/{itemId}(itemId=${item.itemId})}" th:text="${item.name}">상품명</a></td>
                 <td th:text="${item.price}"></td>
-                <td th:text="${item.quantity}"></td>
+                <td th:text="${item.stock}"></td>
             </tr>
 
             </tbody>
