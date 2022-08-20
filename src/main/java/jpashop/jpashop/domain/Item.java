@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import jpashop.jpashop.dto.item.form.ItemEditDTO;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,5 +37,19 @@ public abstract class Item {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+    }
+
+
+    public void editItem(ItemEditDTO itemEditDTO) {
+        if (itemEditDTO.getPrice() <= 0) {
+            throw new IllegalArgumentException("가격은 0 보다 커야합니다.");
+        }
+        if (itemEditDTO.getQuantity() <= 0) {
+            throw new IllegalArgumentException("수량은 0보다 커야합니다");
+        }
+
+        this.name = itemEditDTO.getName();
+        this.price = itemEditDTO.getPrice();
+        this.stockQuantity = itemEditDTO.getQuantity();
     }
 }

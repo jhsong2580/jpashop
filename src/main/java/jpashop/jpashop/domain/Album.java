@@ -4,6 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import jpashop.jpashop.dto.item.form.ItemAddDTO;
+import jpashop.jpashop.dto.item.form.ItemEditDTO;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,5 +37,11 @@ public class Album extends Item {
             .stockQuantity(itemAddDTO.getQuantity())
             .name(itemAddDTO.getName())
             .build();
+    }
+
+    public void editItem(ItemEditDTO itemEditDTO){
+        super.editItem(itemEditDTO);
+        this.artist = itemEditDTO.getArtist();
+        this.etc = itemEditDTO.getEtc();
     }
 }
