@@ -3,6 +3,7 @@ package jpashop.jpashop.dto.item;
 import jpashop.jpashop.domain.Album;
 import jpashop.jpashop.domain.Book;
 import jpashop.jpashop.domain.Item;
+import jpashop.jpashop.domain.ItemType;
 import jpashop.jpashop.domain.Movie;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,6 +55,7 @@ public class ItemDTO {
             .name(movie.getName())
             .price(movie.getPrice())
             .stock(movie.getStockQuantity())
+            .dType(ItemType.MOVIE.getWebPageDype())
             .director(movie.getDirector())
             .actor(movie.getActor())
             .build();
@@ -65,6 +67,7 @@ public class ItemDTO {
             .name(album.getName())
             .price(album.getPrice())
             .stock(album.getStockQuantity())
+            .dType(ItemType.ALBUM.getWebPageDype())
             .artist(album.getArtist())
             .etc(album.getEtc())
             .build();
@@ -76,6 +79,7 @@ public class ItemDTO {
             .name(book.getName())
             .price(book.getPrice())
             .stock(book.getStockQuantity())
+            .dType(ItemType.BOOK.getWebPageDype())
             .author(book.getAuthor())
             .isbn(book.getIsbn())
             .build();

@@ -59,4 +59,11 @@ public class ItemService {
     private Item save(Movie movie) {
         return movieRepository.save(movie);
     }
+
+    public ItemDTO findById(Long itemId) {
+        Item item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new IllegalArgumentException("잘못된 Item ID 입니다"));
+
+        return ItemDTO.from(item);
+    }
 }

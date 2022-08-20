@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -29,8 +30,9 @@ public class ItemController {
     }
 
     @GetMapping("{id}")
-    public String getItemDetail(Model model) {
-        model.addAttribute("item", null);
+    public String getItemDetail(@PathVariable(name = "id") Long itemId, Model model) {
+        model.addAttribute("itemDTO", itemService.findById(itemId));
+
         return "basic/item";
     }
 
