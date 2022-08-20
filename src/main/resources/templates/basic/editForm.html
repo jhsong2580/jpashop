@@ -14,25 +14,71 @@
     <div class="py-5 text-center">
         <h2>상품 수정 폼</h2>
     </div>
-    <form action="item.html" th:action="@{/basic/items/{itemId}/edit(itemId=${item.id})}" method="post">
-        <div>
-            <label for="id">상품 ID</label>
-            <input type="text" id="id" name="id" class="form-control" value="1" th:value="${item.id}"
-                   readonly>
-        </div>
-        <div>
-            <label for="itemName">상품명</label>
-            <input type="text" id="itemName" name="itemName" class="formcontrol" value="상품A" th:value="${item.itemName}">
-        </div>
-        <div>
-            <label for="price">가격</label>
-            <input type="text" id="price" name="price" class="form-control"
-                   value="10000" th:value="${item.price}">
-        </div>
-        <div>
-            <label for="quantity">수량</label>
-            <input type="text" id="quantity" name="quantity" class="formcontrol" value="10" th:value="${item.quantity}">
-        </div>
+    <th:block th:object="${itemDTO}">
+    <form id="itemRegForm" action="item.html" th:action="@{/items/{itemDTO.dType}/{itemDTO.itemId}/edit}" method="post">
+
+            <div>
+                <label for="itemId">상품 ID</label>
+                <input type="text" id="itemId" name="itemId" class="form-control"
+                       value="1" th:field="*{itemId}" readonly>
+            </div>
+            <div>
+                <label for="itemName">상품명</label>
+                <input type="text" id="itemName" name="itemName" class="form-control"
+                       value="상품A" th:field="*{name}" >
+            </div>
+            <div>
+                <label for="price">가격</label>
+                <input type="text" id="price" name="price" class="form-control"
+                       value="10000"  th:field="*{price}" >
+            </div>
+            <div>
+                <label for="quantity">수량</label>
+                <input type="text" id="quantity" name="quantity" class="form-control"c
+                       value="10" th:field="*{quantity}" >
+            </div>
+
+            <input type="hidden" id="dType" name="dType" class="form-control"c
+                   value="10" th:field="*{dType}" >
+
+            <div th:if="${itemDTO.dType eq 'BOOK'}">
+                <div>
+                    <label for="author">작가</label>
+                    <input type="text" id="author" name="quantity" class="form-control"c
+                           value="10" th:field="*{author}" >
+                </div>
+                <div>
+                    <label for="isbn">고유번호</label>
+                    <input type="text" id="isbn" name="quantity" class="form-control"c
+                           value="10" th:field="*{isbn}" >
+                </div>
+            </div>
+            <div th:if="${itemDTO.dType eq 'ALBUM'}">
+                <div>
+                    <label for="artist">아티스트</label>
+                    <input type="text" id="artist" name="quantity" class="form-control"c
+                           value="10" th:field="*{artist}" >
+                </div>
+                <div>
+                    <label for="etc">기타정보</label>
+                    <input type="text" id="etc" name="quantity" class="form-control"c
+                           value="10" th:field="*{etc}" >
+                </div>
+            </div>
+            <div th:if="${itemDTO.dType eq 'MOVIE'}">
+                <div>
+                    <label for="director">감독</label>
+                    <input type="text" id="director" name="quantity" class="form-control"
+                           value="10" th:field="*{director}" >
+                </div>
+                <div>
+                    <label for="actor">주인공</label>
+                    <input type="text" id="actor" name="quantity" class="form-control"
+                           value="10" th:field="*{actor}" >
+                </div>
+            </div>
+
+
         <hr class="my-4">
         <div class="row">
             <div class="col">
@@ -41,10 +87,17 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='item.html'"  th:onclick="|location.href='@{/basic/items/{itemid}(itemid=${item.id})}'|"  type="button">취소</button>
+                        onclick="location.href='item.html'"  th:onclick="|location.href='@{/items/{itemid}(itemid=${itemDTO.itemId})}'|"  type="button">취소</button>
             </div>
         </div>
     </form>
+    </th:block>
 </div> <!-- /container -->
+
+<script th:inline="javascript">
+  var itemId = [[${itemDTO.itemId}]];
+  var dType = [[${itemDTO.dType}]];
+  document.getElementById("itemRegForm").action = "/items/"+dType.toLowerCase()+"/" +itemId +"/edit";
+</script>
 </body>
 </html>
