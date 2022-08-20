@@ -31,6 +31,15 @@ public class ItemDTO {
     private String actor;
 
     public static ItemDTO from(Item item) {
+        if(item instanceof Movie){
+            return from((Movie)item);
+        }
+        if(item instanceof Album){
+            return from((Album)item);
+        }
+        if(item instanceof Book){
+            return from((Book)item);
+        }
         return ItemDTO.builder()
             .itemId(item.getId())
             .name(item.getName())
@@ -39,7 +48,7 @@ public class ItemDTO {
             .build();
     }
 
-    public static ItemDTO from(Movie movie) {
+    private static ItemDTO from(Movie movie) {
         return ItemDTO.builder()
             .itemId(movie.getId())
             .name(movie.getName())
@@ -50,7 +59,7 @@ public class ItemDTO {
             .build();
     }
 
-    public static ItemDTO from(Album album) {
+    private static ItemDTO from(Album album) {
         return ItemDTO.builder()
             .itemId(album.getId())
             .name(album.getName())
@@ -61,7 +70,7 @@ public class ItemDTO {
             .build();
     }
 
-    public static ItemDTO from(Book book) {
+    private static ItemDTO from(Book book) {
         return ItemDTO.builder()
             .itemId(book.getId())
             .name(book.getName())
