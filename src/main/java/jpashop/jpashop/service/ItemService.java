@@ -9,6 +9,7 @@ import jpashop.jpashop.domain.ItemType;
 import jpashop.jpashop.domain.Movie;
 import jpashop.jpashop.dto.item.ItemDTO;
 import jpashop.jpashop.dto.item.form.ItemAddDTO;
+import jpashop.jpashop.dto.item.form.ItemEditDTO;
 import jpashop.jpashop.repository.AlbumRepository;
 import jpashop.jpashop.repository.BookRepository;
 import jpashop.jpashop.repository.ItemRepository;
@@ -60,10 +61,33 @@ public class ItemService {
         return movieRepository.save(movie);
     }
 
-    public ItemDTO findById(Long itemId) {
+    public ItemDTO findById(Long itemId){
         Item item = itemRepository.findById(itemId)
             .orElseThrow(() -> new IllegalArgumentException("잘못된 Item ID 입니다"));
 
         return ItemDTO.from(item);
+    }
+
+    public ItemEditDTO findByIdForEdit(Long itemId) {
+        Item item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new IllegalArgumentException("잘못된 Item ID 입니다"));
+
+        return ItemEditDTO.from(item);
+    }
+
+    @Transactional
+    public void edit(ItemEditDTO itemEditDTO, Long itemId) {
+        Item item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new IllegalArgumentException("잘못된 Item ID 입니다"));
+
+        if(item instanceof Book){
+            ((Book) item).editItem(itemEditDTO);
+        }
+        if(item instanceof Album){
+            ((Album) item).editItem(itemEditDTO);
+        }
+        if(item instanceof Movie){
+            ((Movie) item).editItem(itemEditDTO);
+        }
     }
 }
