@@ -15,20 +15,72 @@
         <h2>상품 등록 폼</h2>
     </div>
     <h4 class="mb-3">상품 입력</h4>
-    <form action="item.html" th:action="@{/basic/items/add}" method="post">
+    <form id="itemRegForm" action="item.html" th:action="@{/items/${itemAddDTO.dType}/add}" th:object="${itemAddDTO}" method="post">
         <div>
+            <p th:errors="*{name}"></p>
             <label for="itemName">상품명</label>
-            <input type="text" id="itemName" name="itemName" class="formcontrol" placeholder="이름을 입력하세요">
+            <input type="text" id="itemName"  th:field="*{name}" class="formcontrol" placeholder="이름을 입력하세요">
         </div>
         <div>
+            <p th:errors="*{price}"></p>
             <label for="price">가격</label>
-            <input type="text" id="price" name="price" class="form-control"
+            <input type="text" id="price" th:field="*{price}" class="form-control"
                    placeholder="가격을 입력하세요">
         </div>
         <div>
+            <p th:errors="*{quantity}"></p>
             <label for="quantity">수량</label>
-            <input type="text" id="quantity" name="quantity" class="formcontrol" placeholder="수량을 입력하세요">
+            <input type="text" id="quantity" th:field="*{quantity}" class="formcontrol" placeholder="수량을 입력하세요">
         </div>
+        <div>
+            <label for="dType">아이템타입</label>
+            <select  id="dType" th:field="*{dType}" th:onchange="Change()">
+                <option th:each="type : ${itemTypes}" th:value="${type}" th:text="${type}" th:selected="${type==BOOK}"></option>
+            </select>
+        </div>
+
+        <div id="book_div">
+            <div>
+                <p th:errors="*{author}"></p>
+                <label for="author"></label>
+                <input type="text" id="author" th:field="*{author}" class="formcontrol" placeholder="작가를 입력하세요">
+            </div>
+
+            <div >
+                <p th:errors="*{isbn}"></p>
+                <label for="isbn"></label>
+                <input type="text" id="isbn" th:field="*{isbn}" class="formcontrol" placeholder="isbn 입력하세요">
+            </div>
+        </div>
+
+
+        <div id="album_div">
+            <div>
+                <p th:errors="*{artist}"></p>
+                <label for="artist"></label>
+                <input type="text" id="artist" th:field="*{artist}" class="formcontrol" placeholder="artist를 입력하세요">
+            </div>
+            <div>
+                <label for="etc"></label>
+                <input type="text" id="etc" th:field="*{etc}" class="formcontrol" placeholder="etc">            </div>
+        </div>
+
+        <div id="movie_div">
+            <div >
+                <p th:errors="*{director}"></p>
+                <label for="director"></label>
+                <input type="text" id="director" th:field="*{director}" class="formcontrol" placeholder="director를 입력하세요">
+            </div>
+            <div>
+                <p th:errors="*{actor}"></p>
+                <label for="actor"></label>
+                <input type="text" id="actor" th:field="*{actor}" class="formcontrol" placeholder="actor를 입력하세요">
+            </div>
+        </div>
+
+
+
+
         <hr class="my-4">
         <div class="row">
             <div class="col">
@@ -37,10 +89,38 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='items.html'" th:onclick="|location.href='@{/basic/items}'|" type="button">취소</button>
+                        onclick="location.href='items.html'" th:onclick="|location.href='@{/items}'|" type="button">취소</button>
             </div>
         </div>
     </form>
 </div> <!-- /container -->
+
+<script th:inline="javascript">
+    document.getElementById("book_div").style.display = "block"
+    document.getElementById("album_div").style.display = "none"
+    document.getElementById("movie_div").style.display = "none"
+    document.getElementById("itemRegForm").action="/items/book"
+    console.log(document.getElementById("itemRegForm").action)
+    function Change(){
+        var key = dType.value;
+        document.getElementById("itemRegForm").action="/items/"+key.toLowerCase()
+        if(key=="BOOK"){
+            document.getElementById("book_div").style.display = "block"
+            document.getElementById("album_div").style.display = "none"
+            document.getElementById("movie_div").style.display = "none"
+        }
+        if(key=="ALBUM"){
+            document.getElementById("book_div").style.display = "none"
+            document.getElementById("album_div").style.display = "block"
+            document.getElementById("movie_div").style.display = "none"
+        }
+        if(key=="MOVIE"){
+            document.getElementById("book_div").style.display = "none"
+            document.getElementById("album_div").style.display = "none"
+            document.getElementById("movie_div").style.display = "block"
+        }
+
+    }
+</script>
 </body>
 </html>
