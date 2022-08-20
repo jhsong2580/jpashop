@@ -49,6 +49,7 @@ public class ItemController {
         if (bindingResult.hasErrors()) {
             return "basic/addForm";
         }
+        itemService.save(itemAddDTO);
         return "redirect:/items";
     }
 
@@ -61,6 +62,7 @@ public class ItemController {
         if (bindingResult.hasErrors()) {
             return "basic/addForm";
         }
+        itemService.save(itemAddDTO);
         return "redirect:/items";
     }
 
@@ -73,6 +75,7 @@ public class ItemController {
         if (bindingResult.hasErrors()) {
             return "basic/addForm";
         }
+        itemService.save(itemAddDTO);
         return "redirect:/items";
     }
 

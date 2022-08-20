@@ -2,21 +2,61 @@ package jpashop.jpashop.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import jpashop.jpashop.domain.Album;
+import jpashop.jpashop.domain.Book;
+import jpashop.jpashop.domain.Item;
+import jpashop.jpashop.domain.ItemType;
+import jpashop.jpashop.domain.Movie;
 import jpashop.jpashop.dto.item.ItemDTO;
+import jpashop.jpashop.dto.item.form.ItemAddDTO;
+import jpashop.jpashop.repository.AlbumRepository;
+import jpashop.jpashop.repository.BookRepository;
 import jpashop.jpashop.repository.ItemRepository;
+import jpashop.jpashop.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final BookRepository bookRepository;
+    private final MovieRepository movieRepository;
+    private final AlbumRepository albumRepository;
 
     public List<ItemDTO> getList() {
         return itemRepository.findAll()
             .stream()
             .map(ItemDTO::from)
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ItemDTO save(ItemAddDTO itemAddDTO) {
+        if (itemAddDTO.getDType().equals(ItemType.MOVIE.getDbDtype())) {
+            return ItemDTO.from(save(Movie.from(itemAddDTO)));
+        }
+        if (itemAddDTO.getDType().equals(ItemType.ALBUM.getDbDtype())) {
+            return ItemDTO.from(save(Album.from(itemAddDTO)));
+        }
+        if (itemAddDTO.getDType().equals(ItemType.BOOK.getDbDtype())) {
+            return ItemDTO.from(save(Book.from(itemAddDTO)));
+        }
+        throw new IllegalArgumentException("잘못된 Item Type입니다");
+    }
+
+    private Item save(Book book) {
+        return bookRepository.save(book);
+    }
+
+    private Item save(Album album) {
+        return albumRepository.save(album);
+    }
+
+    private Item save(Movie movie) {
+        return movieRepository.save(movie);
     }
 }
