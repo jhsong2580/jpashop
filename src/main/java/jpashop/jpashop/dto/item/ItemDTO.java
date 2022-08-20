@@ -1,29 +1,74 @@
 package jpashop.jpashop.dto.item;
 
+import jpashop.jpashop.domain.Album;
+import jpashop.jpashop.domain.Book;
 import jpashop.jpashop.domain.Item;
+import jpashop.jpashop.domain.Movie;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
+@Builder
 public class ItemDTO {
 
     private Long itemId;
     private String name;
     private Integer price;
     private Integer stock;
+    private String dType;
+    //Book
+    private String author;
+    private String isbn;
 
-    public ItemDTO(Long itemId, String name, Integer price, Integer stock) {
-        this.itemId = itemId;
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
+    //Album
+    private String artist;
+    private String etc;
+
+    //Movie
+    private String director;
+    private String actor;
+
+    public static ItemDTO from(Item item) {
+        return ItemDTO.builder()
+            .itemId(item.getId())
+            .name(item.getName())
+            .price(item.getPrice())
+            .stock(item.getStockQuantity())
+            .build();
     }
 
-    public static ItemDTO from(Item item){
-        return new ItemDTO(
-            item.getId(),
-            item.getName(),
-            item.getPrice(),
-            item.getStockQuantity()
-        );
+    public static ItemDTO from(Movie movie) {
+        return ItemDTO.builder()
+            .itemId(movie.getId())
+            .name(movie.getName())
+            .price(movie.getPrice())
+            .stock(movie.getStockQuantity())
+            .director(movie.getDirector())
+            .actor(movie.getActor())
+            .build();
+    }
+
+    public static ItemDTO from(Album album) {
+        return ItemDTO.builder()
+            .itemId(album.getId())
+            .name(album.getName())
+            .price(album.getPrice())
+            .stock(album.getStockQuantity())
+            .artist(album.getArtist())
+            .etc(album.getEtc())
+            .build();
+    }
+
+    public static ItemDTO from(Book book) {
+        return ItemDTO.builder()
+            .itemId(book.getId())
+            .name(book.getName())
+            .price(book.getPrice())
+            .stock(book.getStockQuantity())
+            .author(book.getAuthor())
+            .isbn(book.getIsbn())
+            .build();
     }
 }
