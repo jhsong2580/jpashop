@@ -36,13 +36,13 @@ public class ItemService {
 
     @Transactional
     public ItemDTO save(ItemAddDTO itemAddDTO) {
-        if (itemAddDTO.getDType().equals(ItemType.MOVIE.getDbDtype())) {
+        if (itemAddDTO.getDType().equals(ItemType.MOVIE.getWebPageDype())) {
             return ItemDTO.from(save(Movie.from(itemAddDTO)));
         }
-        if (itemAddDTO.getDType().equals(ItemType.ALBUM.getDbDtype())) {
+        if (itemAddDTO.getDType().equals(ItemType.ALBUM.getWebPageDype())) {
             return ItemDTO.from(save(Album.from(itemAddDTO)));
         }
-        if (itemAddDTO.getDType().equals(ItemType.BOOK.getDbDtype())) {
+        if (itemAddDTO.getDType().equals(ItemType.BOOK.getWebPageDype())) {
             return ItemDTO.from(save(Book.from(itemAddDTO)));
         }
         throw new IllegalArgumentException("잘못된 Item Type입니다");
