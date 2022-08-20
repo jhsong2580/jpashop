@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import jpashop.jpashop.domain.Member;
 import jpashop.jpashop.dto.member.MemberDTO;
 import jpashop.jpashop.dto.member.form.MemberJoinDTO;
@@ -21,18 +22,23 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
-
+    private MockHttpServletRequest httpServletRequest;
     private MemberService memberService;
 
     @BeforeEach
     public void init() {
         memberService = new MemberService(memberRepository);
+        httpServletRequest = new MockHttpServletRequest();
+        MockHttpSession httpSession = new MockHttpSession();
+        httpServletRequest.setSession(httpSession);
     }
 
     @Test
@@ -89,7 +95,7 @@ class MemberServiceTest {
         MemberLoginDTO memberLoginDTO = new MemberLoginDTO("id", "pw");
 
         //when & then
-        assertThatThrownBy(() -> memberService.login(memberLoginDTO))
+        assertThatThrownBy(() -> memberService.login(memberLoginDTO, httpServletRequest))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage("존재하지 않는 회원입니다");
     }
@@ -102,7 +108,7 @@ class MemberServiceTest {
 
         MemberLoginDTO memberLoginDTO = new MemberLoginDTO("id", "wrongPw");
         //when & then
-        assertThatThrownBy(() -> memberService.login(memberLoginDTO))
+        assertThatThrownBy(() -> memberService.login(memberLoginDTO, httpServletRequest))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage("password가 일치하지 않습니다");
     }
@@ -115,7 +121,7 @@ class MemberServiceTest {
 
         MemberLoginDTO memberLoginDTO = new MemberLoginDTO("id", "pw");
         //when & then
-        assertDoesNotThrow(() -> memberService.login(memberLoginDTO));
+        assertDoesNotThrow(() -> memberService.login(memberLoginDTO, httpServletRequest));
 
     }
 }
