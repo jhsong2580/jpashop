@@ -77,6 +77,10 @@ public class ItemService {
 
     @Transactional
     public void edit(ItemEditDTO itemEditDTO, Long itemId) {
+        if(itemId != itemEditDTO.getItemId()){
+            throw new IllegalArgumentException("잘못된 수정 접근입니다");
+        }
+
         Item item = itemRepository.findById(itemId)
             .orElseThrow(() -> new IllegalArgumentException("잘못된 Item ID 입니다"));
 
