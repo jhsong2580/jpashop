@@ -1,21 +1,25 @@
 package jpashop.jpashop.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import jpashop.jpashop.domain.Album;
 import jpashop.jpashop.domain.Book;
 import jpashop.jpashop.domain.Movie;
 import jpashop.jpashop.dto.item.ItemDTO;
 import jpashop.jpashop.dto.item.form.ItemAddDTO;
+import jpashop.jpashop.dto.item.form.ItemEditDTO;
 import jpashop.jpashop.repository.AlbumRepository;
 import jpashop.jpashop.repository.BookRepository;
 import jpashop.jpashop.repository.ItemRepository;
 import jpashop.jpashop.repository.MovieRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -137,5 +141,50 @@ class ItemServiceTest {
             () -> assertThat(itemDTO.getDirector()).isEqualTo(movie.getDirector()),
             () -> assertThat(itemDTO.getActor()).isEqualTo(movie.getActor())
         );
+    }
+
+    @Test
+    public void 수정하기 (){
+        //given
+        ItemEditDTO itemEditDTO = new ItemEditDTO(1L, "editName", 999, 888, "MOVIE", null, null,
+            null, null, "editDirector",
+            "editActor");
+        when(itemRepository.findById(1L)).thenReturn(Optional.of(movie));
+
+        //when
+        itemService.edit(itemEditDTO, 1L);
+
+        //then
+        assertAll(
+            () -> assertThat(movie.getName()).isEqualTo(itemEditDTO.getName()),
+            () -> assertThat(movie.getPrice()).isEqualTo(itemEditDTO.getPrice()),
+            () -> assertThat(movie.getActor()).isEqualTo(itemEditDTO.getActor())
+        );
+    }
+
+    @Test
+    public void 잘못된_아이템키로_수정하기 (){
+        //given
+        ItemEditDTO itemEditDTO = new ItemEditDTO(1L, "editName", 999, 888, "MOVIE", null, null,
+            null, null, "editDirector",
+            "editActor");
+
+        //when & then
+        assertThatThrownBy(() -> itemService.edit(itemEditDTO, 2L))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("잘못된 수정 접근입니다");
+    }
+
+    @Test
+    public void 없는_아이템_수정하기 (){
+        //given
+        ItemEditDTO itemEditDTO = new ItemEditDTO(1L, "editName", 999, 888, "MOVIE", null, null,
+            null, null, "editDirector",
+            "editActor");
+
+        //when & then
+        assertThatThrownBy(() -> itemService.edit(itemEditDTO, 1L))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("잘못된 Item ID 입니다");
     }
 }
