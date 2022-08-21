@@ -59,8 +59,8 @@ class BookTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0,-1})
-    public void 수량은0이하가될수없다(int quantity) {
+    @ValueSource(ints = {-999,-1})
+    public void 수량은_음수가_될수없다(int quantity) {
         //given
         ItemEditDTO itemEditDTO = new ItemEditDTO(0L, "testBookEdit", 9, quantity, "BOOK", "testAuthorEdit", "testISBNEDIT",
             null,
