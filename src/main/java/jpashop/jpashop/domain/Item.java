@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,28 +29,31 @@ public abstract class Item {
     @Column(name = "ITEM_ID")
     private Long id;
     private String name;
-    private Integer price;
-    private Integer stockQuantity;
+    @Embedded
+    private Price price;
+    @Embedded
+    private StockQuantity stockQuantity;
     @OneToMany(mappedBy = "item")
     private List<ItemCategory> itemCategories = new ArrayList<>();
 
     public Item(String name, Integer price, Integer stockQuantity) {
         this.name = name;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
+        this.price = new Price(price);
+        this.stockQuantity = new StockQuantity(stockQuantity);
     }
 
 
     public void editItem(ItemEditDTO itemEditDTO) {
-        if (itemEditDTO.getPrice() <= 0) {
-            throw new IllegalArgumentException("가격은 0 보다 커야합니다");
-        }
-        if (itemEditDTO.getQuantity() <= 0) {
-            throw new IllegalArgumentException("수량은 0보다 커야합니다");
-        }
-
         this.name = itemEditDTO.getName();
-        this.price = itemEditDTO.getPrice();
-        this.stockQuantity = itemEditDTO.getQuantity();
+        this.price.changePrice(itemEditDTO.getPrice());
+        this.stockQuantity.changeStockQuantity(itemEditDTO.getQuantity());
+    }
+
+    public Integer getPrice(){
+        return price.getPrice();
+    }
+
+    public Integer getStockQuantity(){
+        return stockQuantity.getStockQuantity();
     }
 }
