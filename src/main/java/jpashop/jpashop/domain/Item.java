@@ -42,7 +42,7 @@ public abstract class Item {
 
     public void editItem(ItemEditDTO itemEditDTO) {
         if (itemEditDTO.getPrice() <= 0) {
-            throw new IllegalArgumentException("가격은 0 보다 커야합니다.");
+            throw new IllegalArgumentException("가격은 0 보다 커야합니다");
         }
         if (itemEditDTO.getQuantity() <= 0) {
             throw new IllegalArgumentException("수량은 0보다 커야합니다");
