@@ -89,7 +89,7 @@ class ItemServiceTest {
     @Test
     public void 앨범저장하기() {
         //given
-        ItemAddDTO itemAddDTO = new ItemAddDTO(null, null, null, "ALBUM", null, null, null, null,
+        ItemAddDTO itemAddDTO = new ItemAddDTO(album.getName(), album.getPrice(), album.getStockQuantity(), "ALBUM", null, null, null, null,
             null,
             null);
         when(albumRepository.save(any())).thenReturn(album);
@@ -108,7 +108,8 @@ class ItemServiceTest {
     @Test
     public void 책저장하기() {
         //given
-        ItemAddDTO itemAddDTO = new ItemAddDTO(null, null, null, "BOOK", null, null, null, null,
+        ItemAddDTO itemAddDTO = new ItemAddDTO(book.getName(), book.getPrice(),
+            book.getStockQuantity(), "BOOK", null, null, null, null,
             null,
             null);
         when(bookRepository.save(any())).thenReturn(book);
@@ -127,7 +128,7 @@ class ItemServiceTest {
     @Test
     public void 영화저장하기() {
         //given
-        ItemAddDTO itemAddDTO = new ItemAddDTO(null, null, null, "MOVIE", null, null, null, null,
+        ItemAddDTO itemAddDTO = new ItemAddDTO(movie.getName(), movie.getPrice(), movie.getStockQuantity(), "MOVIE", null, null, null, null,
             null,
             null);
         when(movieRepository.save(any())).thenReturn(movie);
