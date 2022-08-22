@@ -14,8 +14,8 @@
     <div class="py-5 text-center">
         <h2>상품 수정 폼</h2>
     </div>
-    <th:block th:object="${itemDTO}">
-    <form id="itemRegForm" action="item.html" th:action="@{/items/{itemDTO.dType}/{itemDTO.itemId}/edit}" method="post">
+    <th:block th:object="${itemEditDTO}">
+    <form id="itemRegForm" action="item.html" th:action="@{/items/{itemEditDTO.dType}/{itemEditDTO.itemId}/edit}" method="post">
 
             <div>
                 <label for="itemId">상품 ID</label>
@@ -41,7 +41,7 @@
             <input type="hidden" id="dType" name="dType" class="form-control"c
                    value="10" th:field="*{dType}" >
 
-            <div th:if="${itemDTO.dType eq 'BOOK'}">
+            <div th:if="${itemEditDTO.dType eq 'BOOK'}">
                 <div>
                     <label for="author">작가</label>
                     <input type="text" id="author" name="quantity" class="form-control"c
@@ -53,7 +53,7 @@
                            value="10" th:field="*{isbn}" >
                 </div>
             </div>
-            <div th:if="${itemDTO.dType eq 'ALBUM'}">
+            <div th:if="${itemEditDTO.dType eq 'ALBUM'}">
                 <div>
                     <label for="artist">아티스트</label>
                     <input type="text" id="artist" name="quantity" class="form-control"c
@@ -65,7 +65,7 @@
                            value="10" th:field="*{etc}" >
                 </div>
             </div>
-            <div th:if="${itemDTO.dType eq 'MOVIE'}">
+            <div th:if="${itemEditDTO.dType eq 'MOVIE'}">
                 <div>
                     <label for="director">감독</label>
                     <input type="text" id="director" name="quantity" class="form-control"
@@ -87,7 +87,7 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='item.html'"  th:onclick="|location.href='@{/items/{itemid}(itemid=${itemDTO.itemId})}'|"  type="button">취소</button>
+                        onclick="location.href='item.html'"  th:onclick="|location.href='@{/items/{itemid}(itemid=${itemEditDTO.itemId})}'|"  type="button">취소</button>
             </div>
         </div>
     </form>
@@ -95,8 +95,8 @@
 </div> <!-- /container -->
 
 <script th:inline="javascript">
-  var itemId = [[${itemDTO.itemId}]];
-  var dType = [[${itemDTO.dType}]];
+  var itemId = [[${itemEditDTO.itemId}]];
+  var dType = [[${itemEditDTO.dType}]];
   document.getElementById("itemRegForm").action = "/items/"+dType.toLowerCase()+"/" +itemId +"/edit";
 </script>
 </body>
