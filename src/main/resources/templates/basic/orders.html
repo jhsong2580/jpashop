@@ -36,9 +36,9 @@
             <tbody>
             <tr th:each="order : ${orders}">
                 <td><a href="item.html" th:href="@{/orders/{orderId}(orderId=${order.orderId})}" th:text="${order.orderId}">주문ID</a></td>
-                <td><a href="item.html" th:href="@{/orders/{orderId}(orderId=${order.orderId})}" th:text="${item.name}">상품명</a></td>
+                <td><a href="item.html" th:href="@{/orders/{orderId}(orderId=${order.orderId})}" th:text="${order.itemName}">상품명</a></td>
                 <td th:text="${order.price}"></td>
-                <td th:text="${order.stock}"></td>
+                <td th:text="${order.itemCount}"></td>
                 <td th:text="${order.orderStatus}"></td>
                 <td th:text="${order.deliveryStatus}"></td>
             </tr>
