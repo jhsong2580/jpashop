@@ -20,3 +20,11 @@ insert into album values('아티스트1','etc1',5);
 
 insert into item values('A', default, '앨범2', 58000, 10);
 insert into album values('아티스트2','etc2',6);
+
+insert into delivery values(1, 'seoul', 'kuro', '06284', 'READY');
+insert into orders values(1, now(), now(), 'ORDER', 1, 1);
+insert into order_item values(2, 36000, 1, 1);
+
+insert into delivery values(2, 'seoul', 'kuro', '06284', 'READY');
+insert into orders values(2, now(), now(), 'ORDER', 2, 1);
+insert into order_item values(3, 80000, 2, 4);
