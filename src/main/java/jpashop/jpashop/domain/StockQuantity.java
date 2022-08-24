@@ -18,13 +18,18 @@ public class StockQuantity {
         this.stockQuantity = stockQuantity;
     }
 
-    public void changeStockQuantity(Integer stockQuantity){
+    public void changeStockQuantity(Integer stockQuantity) {
         validate(stockQuantity);
         this.stockQuantity = stockQuantity;
     }
 
-    private void validate(Integer stockQuantity){
-        if(stockQuantity < 0){
+    public void minus(int count) {
+        validate(stockQuantity - count);
+        this.stockQuantity -= count;
+    }
+
+    private void validate(Integer stockQuantity) {
+        if (stockQuantity < 0) {
             throw new IllegalArgumentException("수량은 0보다 커야합니다");
         }
     }

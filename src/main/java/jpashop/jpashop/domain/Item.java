@@ -49,11 +49,15 @@ public abstract class Item {
         this.stockQuantity.changeStockQuantity(itemEditDTO.getQuantity());
     }
 
-    public Integer getPrice(){
+    public Integer getPrice() {
         return price.getPrice();
     }
 
-    public Integer getStockQuantity(){
+    public Integer getStockQuantity() {
         return stockQuantity.getStockQuantity();
+    }
+
+    public void minusStockQuantity(int count) {
+        stockQuantity.minus(count);
     }
 }
