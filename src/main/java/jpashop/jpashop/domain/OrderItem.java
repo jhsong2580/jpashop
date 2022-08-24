@@ -1,10 +1,12 @@
 package jpashop.jpashop.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
+import jpashop.jpashop.dto.order.form.OrderAddDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +28,16 @@ public class OrderItem {
     private Integer orderPrice;
 
     private Integer count;
+
+    protected OrderItem(Order order, Item item, Integer orderPrice, Integer count) {
+        this.order = order;
+        this.item = item;
+        this.orderPrice = orderPrice;
+        this.count = count;
+    }
+
+    public static OrderItem of(Order order, Item item, OrderAddDTO orderAddDTO){
+        return new OrderItem(order, item, orderAddDTO.getCount() * item.getPrice(),
+            orderAddDTO.getCount());
+    }
 }
