@@ -33,4 +33,9 @@ public class Delivery {
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private DeliveryStatus deliveryStatus;
+
+    public Delivery(Address address, DeliveryStatus deliveryStatus) {
+        this.address = address;
+        this.deliveryStatus = deliveryStatus;
+    }
 }
