@@ -47,7 +47,7 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "MEMBER_ID", foreignKey = @ForeignKey(name = "ORDER_MEMBER_FK"))
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "DELIVERY_ID", foreignKey = @ForeignKey(name = "ORDER_DELIVERY_FK"))
     private Delivery delivery;
 }
