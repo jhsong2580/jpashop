@@ -15,7 +15,7 @@
         <h2>주문 등록 폼</h2>
     </div>
     <h4 class="mb-3">주문 입력</h4>
-    <form id="itemRegForm" action="item.html" th:action="@{/orders}" th:object="${order}" method="post">
+    <form id="itemRegForm" action="item.html" th:action="@{/orders}" th:object="${orderAddDTO}" method="post">
         <div>
             <label for="itemId">아이템타입</label>
             <select  id="itemId" th:field="*{itemId}" >
