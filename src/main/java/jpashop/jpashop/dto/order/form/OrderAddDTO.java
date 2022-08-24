@@ -1,22 +1,20 @@
 package jpashop.jpashop.dto.order.form;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class OrderAddDTO {
 
-    @NotEmpty
-    private String itemId;
+    @NotNull
+    private Long itemId;
     @Min(1)
-    private int count;
+    private Integer count;
 
-    public OrderAddDTO(String itemId, int count) {
-        this.itemId = itemId;
-        this.count = count;
-    }
 }
