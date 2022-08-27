@@ -30,8 +30,9 @@ public class OrderController {
     }
 
     @GetMapping("/add")
-    public String getOrderPage(@ModelAttribute OrderAddDTO orderAddDTO, Model model) {
-        model.addAttribute("items", itemService.getList());
+    public String getOrderPage(@ModelAttribute OrderAddDTOList orderAddDTOList, Model model) {
+        List<ItemDTO> items = itemService.getList();
+        model.addAttribute("items", items);
 
         return "basic/orderAddForm";
     }
