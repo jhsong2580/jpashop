@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import jpashop.jpashop.dto.member.form.MemberJoinDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,10 +34,24 @@ public class Member extends BaseTimeEntity {
     private Long id;
 
     private String name;
-
+    private String password;
     @Embedded
     private Address address = new Address();
 
     @Embedded
     private OrderListManager orders = new OrderListManager();
+
+    public Member(String name, String password, Address address) {
+        this.name = name;
+        this.password = password;
+        this.address = address;
+    }
+
+    public static Member from(MemberJoinDTO memberJoinDTO) {
+        return new Member(memberJoinDTO.getIdentification(), memberJoinDTO.getPassword(), null);
+    }
+
+    public boolean validPassword(String password){
+        return this.password.equals(password);
+    }
 }

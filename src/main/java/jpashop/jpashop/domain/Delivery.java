@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @SequenceGenerator(name = "DELIVERY_SEQ_GEN", //sequence generator 이름
     sequenceName = "DELIVERY_SEQ", //sequence 이름
-    initialValue = 1, // 시작값
+    initialValue = 10, // 시작값
     allocationSize = 1) //메모리에 한번에 로딩할 sequence 갯수
 public class Delivery {
 
@@ -33,4 +33,9 @@ public class Delivery {
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private DeliveryStatus deliveryStatus;
+
+    public Delivery(Address address, DeliveryStatus deliveryStatus) {
+        this.address = address;
+        this.deliveryStatus = deliveryStatus;
+    }
 }

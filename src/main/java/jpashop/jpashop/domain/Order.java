@@ -2,6 +2,7 @@ package jpashop.jpashop.domain;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -33,6 +34,7 @@ import lombok.NoArgsConstructor;
     @AttributeOverride(name = "createDate", column = @Column(name = "ORDER_DATE")),
     @AttributeOverride(name = "updateDate", column = @Column(name = "ORDER_UPDATE_DATE"))
 })
+
 public class Order extends BaseTimeEntity {
 
     @Id
@@ -47,7 +49,18 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "MEMBER_ID", foreignKey = @ForeignKey(name = "ORDER_MEMBER_FK"))
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "DELIVERY_ID", foreignKey = @ForeignKey(name = "ORDER_DELIVERY_FK"))
     private Delivery delivery;
+
+    public Order(OrderStatus orderStatus, Member member, Delivery delivery) {
+        this.orderStatus = orderStatus;
+        this.member = member;
+        this.delivery = delivery;
+    }
+
+    public static Order from(Member member) {
+        Delivery delivery = new Delivery(member.getAddress(), DeliveryStatus.READY);
+        return new Order(OrderStatus.ORDER, member, delivery);
+    }
 }

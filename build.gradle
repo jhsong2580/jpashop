@@ -28,6 +28,9 @@ dependencies {
 
 	//h2Db
 	implementation 'com.h2database:h2'
+
+	//thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {

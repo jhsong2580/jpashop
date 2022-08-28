@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+ .container {
+ max-width: 560px;
+ }
+ </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>주문 등록 폼</h2>
+    </div>
+    <h4 class="mb-3">주문 입력</h4>
+    <div id="orderEntityHidden" th:hidden=true>
+        <div>
+            <label for="itemId">아이템타입</label>
+            <select class="itemId" id="itemId" >
+                <option th:each="item : ${items}" th:value="${item.itemId}" th:text="${item.name}" ></option>
+            </select>
+        </div>
+        <div>
+
+            <label for="count">수량</label>
+            <input type="text" id="count" th:value="0" class="formcontrol count" placeholder="수량을 입력하세요">
+        </div>
+    </div>
+    <form id="itemRegForm" action="item.html" th:action="@{/orders}" method="post">
+        <input type="button" value="추가" onclick="add_div()"><br/>
+        <div id="ordersForm">
+            <div id="orderEntity" th:each="orderItemId, index : ${orderAddDTOList.itemId}">
+                <div>
+                    <label for="itemId">아이템타입</label>
+                    <select class="itemId" id="itemId" >
+                        <option th:each="item : ${items}" th:value="${item.itemId}" th:text="${item.name}" th:selected="${item.itemId} == ${orderItemId}"></option>
+                    </select>
+                </div>
+                <div>
+
+                    <label for="count">수량</label>
+                    <input type="text" id="count" th:value="${orderAddDTOList.count[index.index]}" class="formcontrol count" placeholder="수량을 입력하세요">
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">상품
+                    등록</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='items.html'" th:onclick="|location.href='@{/orders}'|" type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+
+<script th:inline="javascript">
+    var items = [[${items}]];
+    var orders = [[${orderAddDTOList}]];
+    if(orders['itemId'].length == 0){
+        add_div();
+    }
+
+    function add_div(){
+        var div = document.createElement('div');
+        div.innerHTML = document.getElementById('orderEntityHidden').innerHTML;
+        div.querySelector(".count").setAttribute('value', 0);
+        var element = div.querySelector(".itemId");
+        var len = element.options.length;
+        console.log(element)
+        for(let i=0; i<len; i++){
+            if(element.options[i].value == items[0]['itemId']){
+                element.options[i].selected = true;
+                break;
+            }
+        }
+        document.getElementById('ordersForm').appendChild(div);
+    }
+
+    function remove_div(obj)
+    {
+        document.getElementById('field').removeChild(obj.parentNode);
+    }
+
+</script>
+</body>
+</html>
