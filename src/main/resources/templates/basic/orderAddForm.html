@@ -31,7 +31,6 @@
     <form id="itemRegForm" action="item.html" th:action="@{/orders}" method="post">
         <input type="button" value="추가" onclick="add_div()"><br/>
         <div id="ordersForm">
-
             <div id="orderEntity" th:each="orderItemId, index : ${orderAddDTOList.itemId}">
                 <div>
                     <label for="itemId">아이템타입</label>
