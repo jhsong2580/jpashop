@@ -46,6 +46,9 @@ public class Movie extends Item {
     }
 
     public void editItem(ItemEditDTO itemEditDTO) {
+        if (isEmpty(itemEditDTO.getActor()) || isEmpty(itemEditDTO.getDirector())) {
+            throw new IllegalArgumentException("영화는 Actor 와 Director가 존재해야합니다");
+        }
         super.editItem(itemEditDTO);
         this.actor = itemEditDTO.getActor();
         this.director = itemEditDTO.getDirector();

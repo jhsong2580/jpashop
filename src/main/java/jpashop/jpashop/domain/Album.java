@@ -45,6 +45,9 @@ public class Album extends Item {
     }
 
     public void editItem(ItemEditDTO itemEditDTO) {
+        if (isEmpty(itemEditDTO.getArtist())) {
+            throw new IllegalArgumentException("앨범은 아티스트 정보가 있어야합니다");
+        }
         super.editItem(itemEditDTO);
         this.artist = itemEditDTO.getArtist();
         this.etc = itemEditDTO.getEtc();
