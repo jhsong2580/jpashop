@@ -76,7 +76,7 @@ public class ItemService {
     }
 
     @Transactional
-    public void edit(ItemEditDTO itemEditDTO, Long itemId) {
+    public ItemDTO edit(ItemEditDTO itemEditDTO, Long itemId) {
         if(itemId != itemEditDTO.getItemId()){
             throw new IllegalArgumentException("잘못된 수정 접근입니다");
         }
@@ -93,5 +93,6 @@ public class ItemService {
         if(item instanceof Movie){
             ((Movie) item).editItem(itemEditDTO);
         }
+        return ItemDTO.from(item);
     }
 }
