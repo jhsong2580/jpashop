@@ -1,4 +1,4 @@
-package jpashop.jpashop.dto.order.form;
+package jpashop.jpashop.dto.order;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

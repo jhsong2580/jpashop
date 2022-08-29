@@ -3,7 +3,7 @@ package jpashop.jpashop.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 import jpashop.jpashop.dto.order.OrderDTO;
-import jpashop.jpashop.dto.order.form.OrderAddDTOList;
+import jpashop.jpashop.dto.order.OrderAddDTOList;
 import jpashop.jpashop.service.ItemService;
 import jpashop.jpashop.service.OrderService;
 import lombok.RequiredArgsConstructor;

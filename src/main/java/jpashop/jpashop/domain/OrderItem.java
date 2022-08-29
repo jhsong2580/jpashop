@@ -6,7 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
-import jpashop.jpashop.dto.order.form.OrderAddDTO;
+import jpashop.jpashop.dto.order.OrderAddDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

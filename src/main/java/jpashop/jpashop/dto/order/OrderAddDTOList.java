@@ -1,4 +1,4 @@
-package jpashop.jpashop.dto.order.form;
+package jpashop.jpashop.dto.order;
 
 import java.util.List;
 import javax.validation.Valid;
