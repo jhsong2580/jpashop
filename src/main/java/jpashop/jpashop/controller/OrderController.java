@@ -1,12 +1,19 @@
 package jpashop.jpashop.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import jpashop.jpashop.dto.order.OrderDTO;
+import jpashop.jpashop.dto.order.form.OrderAddDTOList;
 import jpashop.jpashop.service.ItemService;
 import jpashop.jpashop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,18 +30,9 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getList());
     }
 
-    @GetMapping("/add")
-    public String getOrderPage(@ModelAttribute OrderAddDTOList orderAddDTOList, Model model) {
-        List<ItemDTO> items = itemService.getList();
-        model.addAttribute("items", items);
-
-        return "basic/orderAddForm";
-    }
-
-    @PostMapping()
-    public String saveOrder(@Validated @ModelAttribute OrderAddDTO orderAddDTO,
-        BindingResult bindingResult,
-        HttpServletRequest request) {
+    @PostMapping(value = "", consumes = "application/json")
+    public ResponseEntity<OrderDTO> save(@Validated @RequestBody OrderAddDTOList orderAddDTOList,
+        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "basic/orderAddForm";
         }

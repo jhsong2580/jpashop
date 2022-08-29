@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class OrderAddDTO {
 
-    @NotNull
+    @NotNull(message = "주문할 아이템은 필수입니다")
     private Long itemId;
-    @Min(1)
+    @Min(value = 1L, message = "주문할 갯수는 1 이상이여야 합니다")
     private Integer count;
 
 }

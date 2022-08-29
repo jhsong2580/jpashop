@@ -1,12 +1,15 @@
 package jpashop.jpashop.dto.order.form;
 
-import java.util.LinkedList;
 import java.util.List;
-import lombok.Data;
+import javax.validation.Valid;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderAddDTOList {
 
-    private List<Long> itemId = new LinkedList<>();
-    private List<Long> count = new LinkedList<>();
+    @Valid
+    private List<OrderAddDTO> orders;
 }
