@@ -1,21 +1,16 @@
 package jpashop.jpashop.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import jpashop.jpashop.dto.order.form.OrderAddDTO;
+import java.util.List;
+import jpashop.jpashop.dto.order.OrderDTO;
 import jpashop.jpashop.service.ItemService;
 import jpashop.jpashop.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
@@ -23,10 +18,9 @@ public class OrderController {
     private final OrderService orderService;
     private final ItemService itemService;
 
-    @GetMapping("")
-    public String orderListPage(Model model) {
-        model.addAttribute("orders", orderService.getList());
-        return "basic/orders";
+    @GetMapping(value = "", consumes = "application/json")
+    public ResponseEntity<List<OrderDTO>> orderList() {
+        return ResponseEntity.ok(orderService.getList());
     }
 
     @GetMapping("/add")
