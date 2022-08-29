@@ -1,5 +1,6 @@
 package jpashop.jpashop.controller;
 
+import java.util.List;
 import jpashop.jpashop.dto.item.ItemDTO;
 import jpashop.jpashop.dto.item.form.ItemAddDTO;
 import jpashop.jpashop.dto.item.form.ItemEditDTO;
@@ -23,6 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ItemController {
 
     private final ItemService itemService;
+
+    @GetMapping(consumes = "application/json")
+    public ResponseEntity<List<ItemDTO>> getItemList () {
+        return ResponseEntity.ok(itemService.getList());
+    }
 
     @GetMapping(value = "{id}", consumes = "application/json")
     public ResponseEntity<ItemDTO> getItemDetail(@PathVariable(name = "id") Long itemId) {
