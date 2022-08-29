@@ -34,12 +34,34 @@ public class OrderController {
     public ResponseEntity<OrderDTO> save(@Validated @RequestBody OrderAddDTOList orderAddDTOList,
         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "basic/orderAddForm";
+            throw new IllegalArgumentException(bindingResult.getFieldErrors()
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.toSet())
+                .toString());
         }
-        HttpSession session = request.getSession(false);
-        Long memberId = (Long) session.getAttribute("MEMBERID");
-        orderService.saveOrder(orderAddDTO, memberId);
-
-        return "redirect:/orders";
+        return ResponseEntity.ok(orderService.saveOrder(orderAddDTOList, 1L));
     }
+
+//    @GetMapping("/add")
+//    public String getOrderPage(@ModelAttribute OrderAddDTOList orderAddDTOList, Model model) {
+//        List<ItemDTO> items = itemService.getList();
+//        model.addAttribute("items", items);
+//
+//        return "basic/orderAddForm";
+//    }
+
+//    @PostMapping()
+//    public String saveOrder(@Validated @ModelAttribute OrderAddDTO orderAddDTO,
+//        BindingResult bindingResult,
+//        HttpServletRequest request) {
+//        if (bindingResult.hasErrors()) {
+//            return "basic/orderAddForm";
+//        }
+//        HttpSession session = request.getSession(false);
+//        Long memberId = (Long) session.getAttribute("MEMBERID");
+//        orderService.saveOrder(orderAddDTO, memberId);
+//
+//        return "redirect:/orders";
+//    }
 }
