@@ -41,12 +41,7 @@ public class ItemDTO {
         if(item instanceof Book){
             return from((Book)item);
         }
-        return ItemDTO.builder()
-            .itemId(item.getId())
-            .name(item.getName())
-            .price(item.getPrice())
-            .stock(item.getStockQuantity())
-            .build();
+        throw new IllegalArgumentException("아이템의 타입이 없습니다");
     }
 
     private static ItemDTO from(Movie movie) {
