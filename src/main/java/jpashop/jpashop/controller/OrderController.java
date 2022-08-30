@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     private final OrderService orderService;
-    private final ItemService itemService;
 
     @GetMapping(value = "", consumes = "application/json")
     public ResponseEntity<List<OrderDTO>> orderList() {
