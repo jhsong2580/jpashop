@@ -15,6 +15,7 @@ import jpashop.jpashop.domain.DeliveryStatus;
 import jpashop.jpashop.domain.Member;
 import jpashop.jpashop.domain.Order;
 import jpashop.jpashop.domain.OrderStatus;
+import jpashop.jpashop.dto.order.DeliveryEditDTO;
 import jpashop.jpashop.dto.order.OrderAddDTO;
 import jpashop.jpashop.dto.order.OrderAddDTOList;
 import jpashop.jpashop.dto.order.OrderDTO;
@@ -126,5 +127,23 @@ class OrderServiceTest {
         assertThatThrownBy(() -> orderService.saveOrder(orderAddDTOList, 1L))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("수량은 0보다 커야합니다");
+    }
+
+
+    @Test
+    public void editDelivery() {
+        //given
+        Address address = member.getAddress();
+        Delivery delivery = new Delivery(address, DeliveryStatus.READY);
+        DeliveryEditDTO deliveryEditDTO = new DeliveryEditDTO("modifyCity", "modifyStreet",
+            "modifyZipcode",
+            DeliveryStatus.PROCESSING.name());
+
+        //when
+        OrderDTO orderDTO = orderService.editDelivery(1L, deliveryEditDTO);
+
+        //then
+        assertThat(orderDTO).isNull();
+
     }
 }

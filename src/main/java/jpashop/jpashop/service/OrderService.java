@@ -8,6 +8,7 @@ import jpashop.jpashop.domain.Member;
 import jpashop.jpashop.domain.Order;
 import jpashop.jpashop.domain.OrderItem;
 import jpashop.jpashop.domain.OrderStatus;
+import jpashop.jpashop.dto.order.DeliveryEditDTO;
 import jpashop.jpashop.dto.order.OrderAddDTO;
 import jpashop.jpashop.dto.order.OrderAddDTOList;
 import jpashop.jpashop.dto.order.OrderDTO;
@@ -65,6 +66,16 @@ public class OrderService {
         if (orderEditDTO.getOrderStatus() == OrderStatus.CANCEL) {
             order.cancle();
         }
+        return OrderDTO.from(order);
+    }
+
+    @Transactional
+    public OrderDTO editDelivery(long orderId, DeliveryEditDTO deliveryEditDTO) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new IllegalArgumentException("주문을 찾을수 없습니다"));
+
+        order.updateDelivery(deliveryEditDTO);
+
         return OrderDTO.from(order);
     }
 }
