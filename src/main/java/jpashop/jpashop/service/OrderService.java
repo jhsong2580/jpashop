@@ -58,13 +58,13 @@ public class OrderService {
     }
 
     @Transactional
-    public void changeOrderStatus(Long orderId, OrderEditDTO orderEditDTO) {
+    public OrderDTO changeOrderStatus(Long orderId, OrderEditDTO orderEditDTO) {
         Order order = orderRepository.findById(orderId)
             .orElseThrow(() -> new IllegalArgumentException("주문을 찾을수 없습니다"));
 
         if (orderEditDTO.getOrderStatus() == OrderStatus.CANCEL) {
             order.cancle();
-            return;
         }
+        return OrderDTO.from(order);
     }
 }

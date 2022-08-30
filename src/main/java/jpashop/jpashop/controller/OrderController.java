@@ -59,7 +59,6 @@ public class OrderController {
                 .toString());
         }
 
-        orderService.changeOrderStatus(orderId, orderEditDTO);
-        return null;
+        return ResponseEntity.ok(orderService.changeOrderStatus(orderId, orderEditDTO));
     }
 }
