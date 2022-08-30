@@ -38,4 +38,20 @@ public class Delivery {
         this.address = address;
         this.deliveryStatus = deliveryStatus;
     }
+
+    public void changeAddress(Address address){
+        this.address = address;
+    }
+
+    public void completeDelivery(){
+        this.deliveryStatus = DeliveryStatus.COMP;
+    }
+
+    public void readyDelivery(){
+        this.deliveryStatus = DeliveryStatus.READY;
+    }
+
+    public void startDelivery(){
+        this.deliveryStatus = DeliveryStatus.PROCESSING;
+    }
 }
