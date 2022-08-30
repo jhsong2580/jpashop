@@ -2,8 +2,9 @@ package jpashop.jpashop.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import jpashop.jpashop.dto.order.OrderDTO;
 import jpashop.jpashop.dto.order.OrderAddDTOList;
+import jpashop.jpashop.dto.order.OrderDTO;
+import jpashop.jpashop.dto.order.OrderEditDTO;
 import jpashop.jpashop.service.ItemService;
 import jpashop.jpashop.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,25 +46,20 @@ public class OrderController {
         return ResponseEntity.ok(orderService.saveOrder(orderAddDTOList, 1L));
     }
 
-//    @GetMapping("/add")
-//    public String getOrderPage(@ModelAttribute OrderAddDTOList orderAddDTOList, Model model) {
-//        List<ItemDTO> items = itemService.getList();
-//        model.addAttribute("items", items);
-//
-//        return "basic/orderAddForm";
-//    }
+    @PutMapping(value = "{id}", consumes = "application/json")
+    public ResponseEntity<OrderDTO> edit(@PathVariable(name = "id") Long orderId,
+        @Validated @RequestBody OrderEditDTO orderEditDTO,
+        BindingResult bindingResult) {
 
-//    @PostMapping()
-//    public String saveOrder(@Validated @ModelAttribute OrderAddDTO orderAddDTO,
-//        BindingResult bindingResult,
-//        HttpServletRequest request) {
-//        if (bindingResult.hasErrors()) {
-//            return "basic/orderAddForm";
-//        }
-//        HttpSession session = request.getSession(false);
-//        Long memberId = (Long) session.getAttribute("MEMBERID");
-//        orderService.saveOrder(orderAddDTO, memberId);
-//
-//        return "redirect:/orders";
-//    }
+        if (bindingResult.hasErrors()) {
+            throw new IllegalArgumentException(bindingResult.getFieldErrors()
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.toSet())
+                .toString());
+        }
+
+        orderService.changeOrderStatus(orderId, orderEditDTO);
+        return null;
+    }
 }
