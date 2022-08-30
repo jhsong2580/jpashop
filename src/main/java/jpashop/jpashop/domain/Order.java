@@ -1,9 +1,12 @@
 package jpashop.jpashop.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import lombok.AccessLevel;
@@ -62,5 +66,12 @@ public class Order extends BaseTimeEntity {
     public static Order from(Member member) {
         Delivery delivery = new Delivery(member.getAddress(), DeliveryStatus.READY);
         return new Order(OrderStatus.ORDER, member, delivery);
+    }
+
+    public void cancle(){
+        if(getDelivery().getDeliveryStatus() != DeliveryStatus.READY){
+            throw new IllegalArgumentException("배송중이거나 완료된 주문은 취소할수 없습니다");
+        }
+        orderStatus = OrderStatus.CANCEL;
     }
 }
