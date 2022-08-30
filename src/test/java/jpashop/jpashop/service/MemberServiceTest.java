@@ -59,7 +59,7 @@ class MemberServiceTest {
 
         //when & then
         assertThatThrownBy(() -> memberService.joinMember(memberJoinDTO))
-            .isInstanceOf(IllegalStateException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("해당 아이디의 회원이 이미 존재합니다");
     }
 
@@ -95,8 +95,8 @@ class MemberServiceTest {
         MemberLoginDTO memberLoginDTO = new MemberLoginDTO("id", "pw");
 
         //when & then
-        assertThatThrownBy(() -> memberService.login(memberLoginDTO, httpServletRequest))
-            .isInstanceOf(IllegalStateException.class)
+        assertThatThrownBy(() -> memberService.login(memberLoginDTO))
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("존재하지 않는 회원입니다");
     }
 
@@ -108,8 +108,8 @@ class MemberServiceTest {
 
         MemberLoginDTO memberLoginDTO = new MemberLoginDTO("id", "wrongPw");
         //when & then
-        assertThatThrownBy(() -> memberService.login(memberLoginDTO, httpServletRequest))
-            .isInstanceOf(IllegalStateException.class)
+        assertThatThrownBy(() -> memberService.login(memberLoginDTO))
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("password가 일치하지 않습니다");
     }
 
@@ -121,7 +121,7 @@ class MemberServiceTest {
 
         MemberLoginDTO memberLoginDTO = new MemberLoginDTO("id", "pw");
         //when & then
-        assertDoesNotThrow(() -> memberService.login(memberLoginDTO, httpServletRequest));
+        assertDoesNotThrow(() -> memberService.login(memberLoginDTO));
 
     }
 }
