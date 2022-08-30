@@ -1,0 +1,17 @@
+### 로그인
+POST {{host}}/member/login
+Content-Type: application/json
+
+{
+  "identification": "10149424",
+  "password" : "10149424"
+}
+
+###
+POST {{host}}/member
+Content-Type: application/json
+
+{
+  "identification": "101494246",
+  "password" : "10149424"
+}

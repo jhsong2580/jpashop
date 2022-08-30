@@ -37,20 +37,20 @@ public class ItemEditDTO {
     private String dType;
 
     //Book
-    @NotEmpty(message = "작가는 필수입니다", groups = ItemValidationGroups.bookGroup.class)
+    @NotEmpty(message = "작가는 필수입니다")
     private String author;
-    @NotEmpty(message = "isbn은 필수입니다", groups = ItemValidationGroups.bookGroup.class)
+    @NotEmpty(message = "isbn은 필수입니다")
     private String isbn;
 
     //Album
-    @NotEmpty(message = "작가는 필수입니다", groups = ItemValidationGroups.albumGroup.class)
+    @NotEmpty(message = "작가는 필수입니다")
     private String artist;
     private String etc;
 
     //Movie
-    @NotEmpty(message = "기획자는 필수입니다.", groups = ItemValidationGroups.movieGroup.class)
+    @NotEmpty(message = "기획자는 필수입니다.")
     private String director;
-    @NotEmpty(message = "배우는 필수입니다", groups = ItemValidationGroups.movieGroup.class)
+    @NotEmpty(message = "배우는 필수입니다")
     private String actor;
 
     public static ItemEditDTO from(Item item) {

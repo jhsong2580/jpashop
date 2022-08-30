@@ -1,5 +1,7 @@
 package jpashop.jpashop.domain;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;

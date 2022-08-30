@@ -1,5 +1,7 @@
 package jpashop.jpashop.domain;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -30,6 +32,10 @@ public class Book extends Item {
     }
 
     public static Book from(ItemAddDTO itemAddDTO) {
+        if (isEmpty(itemAddDTO.getAuthor()) || isEmpty(itemAddDTO.getIsbn())) {
+            throw new IllegalArgumentException("책은 작가와 ISBN정보가 있어야합니다");
+        }
+
         return Book.builder()
             .author(itemAddDTO.getAuthor())
             .isbn(itemAddDTO.getIsbn())
@@ -39,7 +45,10 @@ public class Book extends Item {
             .build();
     }
 
-    public void editItem(ItemEditDTO itemEditDTO){
+    public void editItem(ItemEditDTO itemEditDTO) {
+        if (isEmpty(itemEditDTO.getAuthor()) || isEmpty(itemEditDTO.getIsbn())) {
+            throw new IllegalArgumentException("책은 작가와 ISBN정보가 있어야합니다");
+        }
         super.editItem(itemEditDTO);
         this.author = itemEditDTO.getAuthor();
         this.isbn = itemEditDTO.getIsbn();

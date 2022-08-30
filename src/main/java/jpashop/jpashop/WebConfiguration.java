@@ -15,7 +15,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new SessionCheckInterceptor(memberRepository))
-            .excludePathPatterns("/member/**");
+//        registry.addInterceptor(new SessionCheckInterceptor(memberRepository))
+//            .excludePathPatterns("/member/**");
     }
 }

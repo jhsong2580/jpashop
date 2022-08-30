@@ -1,5 +1,7 @@
 package jpashop.jpashop.domain;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -31,6 +33,9 @@ public class Movie extends Item {
     }
 
     public static Movie from(ItemAddDTO itemAddDTO) {
+        if (isEmpty(itemAddDTO.getActor()) || isEmpty(itemAddDTO.getDirector())) {
+            throw new IllegalArgumentException("영화는 Actor 와 Director가 존재해야합니다");
+        }
         return Movie.builder()
             .director(itemAddDTO.getDirector())
             .actor(itemAddDTO.getActor())
@@ -40,7 +45,10 @@ public class Movie extends Item {
             .build();
     }
 
-    public void editItem(ItemEditDTO itemEditDTO){
+    public void editItem(ItemEditDTO itemEditDTO) {
+        if (isEmpty(itemEditDTO.getActor()) || isEmpty(itemEditDTO.getDirector())) {
+            throw new IllegalArgumentException("영화는 Actor 와 Director가 존재해야합니다");
+        }
         super.editItem(itemEditDTO);
         this.actor = itemEditDTO.getActor();
         this.director = itemEditDTO.getDirector();

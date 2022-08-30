@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import jpashop.jpashop.dto.order.DeliveryEditDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,5 +63,46 @@ public class Order extends BaseTimeEntity {
     public static Order from(Member member) {
         Delivery delivery = new Delivery(member.getAddress(), DeliveryStatus.READY);
         return new Order(OrderStatus.ORDER, member, delivery);
+    }
+
+    public void cancle(){
+        if(getDelivery().getDeliveryStatus() != DeliveryStatus.READY){
+            throw new IllegalArgumentException("배송중이거나 완료된 주문은 취소할수 없습니다");
+        }
+        orderStatus = OrderStatus.CANCEL;
+    }
+
+    public void updateDelivery(DeliveryEditDTO deliveryEditDTO){
+        if (this.orderStatus == OrderStatus.CANCEL) {
+            throw new IllegalArgumentException("취소된 주문에 대해 배달수정은 불가능합니다");
+        }
+        if(deliveryEditDTO.getDeliveryStatus() == DeliveryStatus.COMP){
+            completeDelivery();
+        }
+        if(deliveryEditDTO.getDeliveryStatus() == DeliveryStatus.PROCESSING){
+            startDelivery();
+        }
+        if(deliveryEditDTO.getDeliveryStatus() == DeliveryStatus.READY){
+            readyDelivery();
+        }
+
+        this.delivery.changeAddress(Address.builder()
+            .zipCode(deliveryEditDTO.getZipCode())
+            .city(deliveryEditDTO.getCity())
+            .street(deliveryEditDTO.getStreet())
+            .build()
+        );
+    }
+
+    private void startDelivery() {
+        this.delivery.startDelivery();
+    }
+
+    private void readyDelivery() {
+        this.delivery.readyDelivery();
+    }
+
+    private void completeDelivery() {
+        this.delivery.completeDelivery();
     }
 }

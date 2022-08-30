@@ -2,8 +2,6 @@ package jpashop.jpashop.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import jpashop.jpashop.domain.Member;
 import jpashop.jpashop.dto.member.MemberDTO;
 import jpashop.jpashop.dto.member.form.MemberJoinDTO;
@@ -20,7 +18,7 @@ public class MemberService {
 
     public void joinMember(MemberJoinDTO memberJoinDTO) {
         if (memberRepository.existsByName(memberJoinDTO.getIdentification())) {
-            throw new IllegalStateException("해당 아이디의 회원이 이미 존재합니다");
+            throw new IllegalArgumentException("해당 아이디의 회원이 이미 존재합니다");
         }
         memberRepository.save(Member.from(memberJoinDTO));
     }
@@ -32,15 +30,12 @@ public class MemberService {
             .collect(Collectors.toList());
     }
 
-    public void login(MemberLoginDTO memberLoginDTO, HttpServletRequest httpServletRequest){
+    public void login(MemberLoginDTO memberLoginDTO) {
         Member member = memberRepository.findByName(memberLoginDTO.getIdentification())
-            .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다"));
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
 
-        if(!member.validPassword(memberLoginDTO.getPassword())){
-            throw new IllegalStateException("password가 일치하지 않습니다");
+        if (!member.validPassword(memberLoginDTO.getPassword())) {
+            throw new IllegalArgumentException("password가 일치하지 않습니다");
         }
-
-        HttpSession session = httpServletRequest.getSession(true);
-        session.setAttribute("MEMBERID",member.getId());
     }
 }

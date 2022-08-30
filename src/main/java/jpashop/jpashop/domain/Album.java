@@ -1,5 +1,7 @@
 package jpashop.jpashop.domain;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -30,6 +32,9 @@ public class Album extends Item {
     }
 
     public static Album from(ItemAddDTO itemAddDTO) {
+        if (isEmpty(itemAddDTO.getArtist())) {
+            throw new IllegalArgumentException("앨범은 아티스트 정보가 있어야합니다");
+        }
         return Album.builder()
             .artist(itemAddDTO.getArtist())
             .etc(itemAddDTO.getEtc())
@@ -39,7 +44,10 @@ public class Album extends Item {
             .build();
     }
 
-    public void editItem(ItemEditDTO itemEditDTO){
+    public void editItem(ItemEditDTO itemEditDTO) {
+        if (isEmpty(itemEditDTO.getArtist())) {
+            throw new IllegalArgumentException("앨범은 아티스트 정보가 있어야합니다");
+        }
         super.editItem(itemEditDTO);
         this.artist = itemEditDTO.getArtist();
         this.etc = itemEditDTO.getEtc();

@@ -22,7 +22,7 @@ public class ItemAddDTO {
     @Min(value = 1, message = "아이템 수량은 1원 이상이여야 합니다.", groups = {ItemValidationGroups.defaultGroup.class})
     private Integer quantity;
 
-    private String dType;
+    private String dtype;
 
     //Book
     @NotEmpty(message = "작가는 필수입니다", groups = ItemValidationGroups.bookGroup.class)
