@@ -7,9 +7,11 @@ import jpashop.jpashop.domain.Item;
 import jpashop.jpashop.domain.Member;
 import jpashop.jpashop.domain.Order;
 import jpashop.jpashop.domain.OrderItem;
-import jpashop.jpashop.dto.order.OrderDTO;
+import jpashop.jpashop.domain.OrderStatus;
 import jpashop.jpashop.dto.order.OrderAddDTO;
 import jpashop.jpashop.dto.order.OrderAddDTOList;
+import jpashop.jpashop.dto.order.OrderDTO;
+import jpashop.jpashop.dto.order.OrderEditDTO;
 import jpashop.jpashop.repository.ItemRepository;
 import jpashop.jpashop.repository.MemberRepository;
 import jpashop.jpashop.repository.OrderItemRepository;
@@ -53,5 +55,16 @@ public class OrderService {
         orderItemRepository.saveAll(orderItems);
 
         return OrderDTO.from(order);
+    }
+
+    @Transactional
+    public void changeOrderStatus(Long orderId, OrderEditDTO orderEditDTO) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new IllegalArgumentException("주문을 찾을수 없습니다"));
+
+        if (orderEditDTO.getOrderStatus() == OrderStatus.CANCEL) {
+            order.cancle();
+            return;
+        }
     }
 }
