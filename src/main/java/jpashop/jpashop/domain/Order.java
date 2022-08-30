@@ -1,12 +1,9 @@
 package jpashop.jpashop.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,9 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import jpashop.jpashop.dto.order.DeliveryEditDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -73,5 +70,39 @@ public class Order extends BaseTimeEntity {
             throw new IllegalArgumentException("배송중이거나 완료된 주문은 취소할수 없습니다");
         }
         orderStatus = OrderStatus.CANCEL;
+    }
+
+    public void updateDelivery(DeliveryEditDTO deliveryEditDTO){
+        if (this.orderStatus == OrderStatus.CANCEL) {
+            throw new IllegalArgumentException("취소된 주문에 대해 배달수정은 불가능합니다");
+        }
+        if(deliveryEditDTO.getDeliveryStatus() == DeliveryStatus.COMP){
+            completeDelivery();
+        }
+        if(deliveryEditDTO.getDeliveryStatus() == DeliveryStatus.PROCESSING){
+            startDelivery();
+        }
+        if(deliveryEditDTO.getDeliveryStatus() == DeliveryStatus.READY){
+            readyDelivery();
+        }
+
+        this.delivery.changeAddress(Address.builder()
+            .zipCode(deliveryEditDTO.getZipCode())
+            .city(deliveryEditDTO.getCity())
+            .street(deliveryEditDTO.getStreet())
+            .build()
+        );
+    }
+
+    private void startDelivery() {
+        this.delivery.startDelivery();
+    }
+
+    private void readyDelivery() {
+        this.delivery.readyDelivery();
+    }
+
+    private void completeDelivery() {
+        this.delivery.completeDelivery();
     }
 }

@@ -1,7 +1,10 @@
 package jpashop.jpashop.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+import jpashop.jpashop.dto.order.DeliveryEditDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,5 +57,44 @@ class OrderTest {
 
         //then
         assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.CANCEL);
+    }
+
+    @Test
+    public void editDelivery() {
+        //given
+        Delivery delivery = new Delivery(address, DeliveryStatus.READY);
+        order = new Order(OrderStatus.ORDER, null, delivery);
+        DeliveryEditDTO deliveryEditDTO = new DeliveryEditDTO("modifyCity", "modifyStreet",
+            "modifyZipcode",
+            DeliveryStatus.PROCESSING.name());
+
+        //when
+        order.updateDelivery(deliveryEditDTO);
+        //then
+        assertAll(
+            () -> assertThat(order.getDelivery().getDeliveryStatus()).isEqualTo(
+                DeliveryStatus.PROCESSING),
+            () -> assertThat(order.getDelivery().getAddress()).extracting("city")
+                .isEqualTo(deliveryEditDTO.getCity()),
+            () -> assertThat(order.getDelivery().getAddress()).extracting("street")
+                .isEqualTo(deliveryEditDTO.getStreet()),
+            () -> assertThat(order.getDelivery().getAddress()).extracting("zipCode")
+                .isEqualTo(deliveryEditDTO.getZipCode())
+        );
+    }
+
+    @Test
+    public void editDeliveryWithCancledOrder() {
+        //given
+        Delivery delivery = new Delivery(address, DeliveryStatus.READY);
+        order = new Order(OrderStatus.CANCEL, null, delivery);
+        DeliveryEditDTO deliveryEditDTO = new DeliveryEditDTO("modifyCity", "modifyStreet",
+            "modifyZipcode",
+            DeliveryStatus.PROCESSING.name());
+
+        //when && then
+        assertThatThrownBy(() -> order.updateDelivery(deliveryEditDTO))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("취소된 주문에 대해 배달수정은 불가능합니다");
     }
 }
