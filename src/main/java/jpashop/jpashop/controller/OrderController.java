@@ -2,6 +2,7 @@ package jpashop.jpashop.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import jpashop.jpashop.dto.order.DeliveryEditDTO;
 import jpashop.jpashop.dto.order.OrderAddDTOList;
 import jpashop.jpashop.dto.order.OrderDTO;
 import jpashop.jpashop.dto.order.OrderEditDTO;
@@ -47,7 +48,7 @@ public class OrderController {
     }
 
     @PutMapping(value = "{id}", consumes = "application/json")
-    public ResponseEntity<OrderDTO> edit(@PathVariable(name = "id") Long orderId,
+    public ResponseEntity<OrderDTO> editOrder(@PathVariable(name = "id") Long orderId,
         @Validated @RequestBody OrderEditDTO orderEditDTO,
         BindingResult bindingResult) {
 
@@ -60,5 +61,20 @@ public class OrderController {
         }
 
         return ResponseEntity.ok(orderService.changeOrderStatus(orderId, orderEditDTO));
+    }
+
+    @PutMapping(value = "/deliveries/{id}", consumes = "application/json")
+    public ResponseEntity<OrderDTO> editDelivery(@PathVariable(name = "id") Long orderId,
+        @Validated @RequestBody DeliveryEditDTO deliveryEditDTO,
+        BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            throw new IllegalArgumentException(bindingResult.getFieldErrors()
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.toSet())
+                .toString());
+        }
+
+        return ResponseEntity.ok(orderService.editDelivery(orderId, deliveryEditDTO));
     }
 }
