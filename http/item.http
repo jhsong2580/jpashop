@@ -1,0 +1,44 @@
+### 아이템리스트
+GET {{host}}/items
+Content-Type: application/json
+
+{
+
+}
+
+
+### 아이템조회
+POST {{host}}/items/1
+Content-Type: application/json
+
+{
+
+}
+
+###아이템등록
+POST {{host}}/items
+Content-Type: application/json
+
+{
+  "name" : "itemName",
+  "price" : 15000,
+  "quantity" : 3,
+  "dtype" : "MOVIE",
+  "director" : "director",
+  "actor" : "actor"
+}
+
+
+### 아이템 수정
+PATCH {{host}}/items/1
+Content-Type: application/json
+
+{
+  "itemId" : 10,
+  "name" : "itemModifyName",
+  "price" : 18000,
+  "quantity" : 6,
+  "dtype" : "MOVIE",
+  "director" : "modifyDirector",
+  "actor" : "actor"
+}

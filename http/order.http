@@ -1,0 +1,41 @@
+### 오더 목록 조회
+GET {{host}}/orders
+Content-Type: application/json
+
+### 오더 저장
+POST {{host}}/orders
+Content-Type: application/json
+
+{
+
+  "orders":[
+    {
+      "itemId" : 1,
+      "count" : 3
+    },
+    {
+      "itemId" : 2,
+      "count" : 2
+    }
+  ]
+}
+
+### 오더 상태수정
+PUT {{host}}/orders/30000
+Content-Type: application/json
+
+{
+
+  "orderStatus" : "e"
+}
+
+### 배달 상태 수정
+PUT {{host}}/orders/deliveries/30000
+Content-Type: application/json
+
+{
+  "city" :"modifyCity",
+  "street" : "hoeStreet",
+  "zipCode" : "06284",
+  "deliveryStatus" : "PROCESSING"
+}
