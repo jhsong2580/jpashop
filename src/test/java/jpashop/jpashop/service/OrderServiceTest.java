@@ -2,6 +2,7 @@ package jpashop.jpashop.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -24,7 +25,6 @@ import jpashop.jpashop.repository.ItemRepository;
 import jpashop.jpashop.repository.MemberRepository;
 import jpashop.jpashop.repository.OrderItemRepository;
 import jpashop.jpashop.repository.OrderRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -67,7 +67,7 @@ class OrderServiceTest {
     public void changeOrderStatusNormalTest() {
         //given
         OrderEditDTO orderEditDTO = new OrderEditDTO(OrderStatus.CANCEL.name());
-        order = new Order(OrderStatus.ORDER, null, new Delivery(null, DeliveryStatus.READY));
+        order = new Order(OrderStatus.ORDER, member, new Delivery(member.getAddress(), DeliveryStatus.READY));
         when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
 
         //when
@@ -105,7 +105,7 @@ class OrderServiceTest {
         OrderDTO orderDTO = orderService.saveOrder(orderAddDTOList, 1L);
 
         //then
-        Assertions.assertAll(
+        assertAll(
             () -> assertThat(orderDTO.getOrderStatus()).isEqualTo(OrderStatus.ORDER.name()),
             () -> assertThat(orderDTO.getDeliveryStatus()).isEqualTo(DeliveryStatus.READY.name())
         );
@@ -138,12 +138,18 @@ class OrderServiceTest {
         DeliveryEditDTO deliveryEditDTO = new DeliveryEditDTO("modifyCity", "modifyStreet",
             "modifyZipcode",
             DeliveryStatus.PROCESSING.name());
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
 
         //when
         OrderDTO orderDTO = orderService.editDelivery(1L, deliveryEditDTO);
 
         //then
-        assertThat(orderDTO).isNull();
-
+        assertAll(
+            () -> assertThat(orderDTO.getDeliveryStatus()).isEqualTo(
+                deliveryEditDTO.getDeliveryStatus().name()),
+            () -> assertThat(orderDTO.getZipCode()).isEqualTo(deliveryEditDTO.getZipCode()),
+            () -> assertThat(orderDTO.getCity()).isEqualTo(deliveryEditDTO.getCity()),
+            () -> assertThat(orderDTO.getStreet()).isEqualTo(deliveryEditDTO.getStreet())
+        );
     }
 }
