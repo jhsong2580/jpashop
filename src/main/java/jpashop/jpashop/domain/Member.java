@@ -48,7 +48,7 @@ public class Member extends BaseTimeEntity {
     }
 
     public static Member from(MemberJoinDTO memberJoinDTO) {
-        return new Member(memberJoinDTO.getIdentification(), memberJoinDTO.getPassword(), null);
+        return new Member(memberJoinDTO.getIdentification(), memberJoinDTO.getPassword(), new Address("city", "street", "06284"));
     }
 
     public boolean validPassword(String password){

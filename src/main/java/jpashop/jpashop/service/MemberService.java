@@ -16,11 +16,14 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public void joinMember(MemberJoinDTO memberJoinDTO) {
+    public MemberDTO joinMember(MemberJoinDTO memberJoinDTO) {
         if (memberRepository.existsByName(memberJoinDTO.getIdentification())) {
             throw new IllegalArgumentException("해당 아이디의 회원이 이미 존재합니다");
         }
-        memberRepository.save(Member.from(memberJoinDTO));
+        Member member = memberRepository.save(Member.from(memberJoinDTO));
+
+        return MemberDTO.from(member);
+
     }
 
     public List<MemberDTO> findAllMembers() {
@@ -37,5 +40,11 @@ public class MemberService {
         if (!member.validPassword(memberLoginDTO.getPassword())) {
             throw new IllegalArgumentException("password가 일치하지 않습니다");
         }
+    }
+
+    public MemberDTO findMemberById(Long id){
+        Member member = memberRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+        return MemberDTO.from(member);
     }
 }

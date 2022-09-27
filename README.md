@@ -62,3 +62,8 @@
 - Error는 code, message로 전달한다 
 - ITEM 타입별로 분산된 URI를 합쳐보자 
 - 모든 예외처리 전달은 advice를 통해서 구현한다
+
+---
+#branch : lock
+### 멀티쓰레드 환경에서 재고 관리문제점이 발생
+- lock을 통해 해결해보자

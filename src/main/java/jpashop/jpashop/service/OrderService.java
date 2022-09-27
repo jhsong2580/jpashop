@@ -46,7 +46,8 @@ public class OrderService {
         List<OrderItem> orderItems = new LinkedList<>();
 
         for (OrderAddDTO orderAddDTO : orderAddDTOList.getOrders()) {
-            Item item = itemRepository.findById(orderAddDTO.getItemId())
+
+            Item item = itemRepository.findByIdWithLock(orderAddDTO.getItemId())
                 .orElseThrow(() -> new IllegalArgumentException("아이템을 찾을수 없습니다"));
             item.minusStockQuantity(orderAddDTO.getCount());
             orderItems.add(OrderItem.of(order, item, orderAddDTO));
