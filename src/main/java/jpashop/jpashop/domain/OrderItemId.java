@@ -2,9 +2,14 @@ package jpashop.jpashop.domain;
 
 import java.io.Serializable;
 import java.util.Objects;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class OrderItemId implements Serializable {
 
     private Long order;
