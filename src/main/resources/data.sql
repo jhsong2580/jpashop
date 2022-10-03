@@ -27,6 +27,8 @@ insert into delivery values(1, 'seoul', 'kuro', '06284', 'READY');
 insert into orders values(40000, now(), now(), 'ORDER', 1, 1);
 insert into order_item values(2, 36000, 40000, 1);
 
+
 insert into delivery values(2, 'seoul', 'kuro', '06284', 'READY');
 insert into orders values(30000, now(), now(), 'ORDER', 2, 1);
 insert into order_item values(3, 80000, 30000, 4);
+insert into order_item values(1, 80000, 30000, 2);
