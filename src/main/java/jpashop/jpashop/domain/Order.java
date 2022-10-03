@@ -1,5 +1,7 @@
 package jpashop.jpashop.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
@@ -14,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import jpashop.jpashop.dto.order.DeliveryEditDTO;
@@ -53,6 +56,9 @@ public class Order extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "DELIVERY_ID", foreignKey = @ForeignKey(name = "ORDER_DELIVERY_FK"))
     private Delivery delivery;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private List<OrderItem> orderItemList = new ArrayList<>();
 
     public Order(OrderStatus orderStatus, Member member, Delivery delivery) {
         this.orderStatus = orderStatus;
